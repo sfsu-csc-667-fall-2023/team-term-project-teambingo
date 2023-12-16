@@ -35,4 +35,6 @@ You could also build the database from scratch via our SQL code bingo_db_psql.sq
 1. Open your favorite code editor
 2. With your editor, open the entire folder named '<insert our repo name here>'
 3. In the code editor terminal, run 'npm install'
-4. Open your favorite browser, and type in "http://localhost:3000/"
+4. After all the packages are installed, run 'npm start'
+5. If you have an issue running start relating ro bcrypt, run 'npm uninstall bcrypt', then 'npm install bcrypt'. There seems to be a compatibility issue with bcrypt with Mac and Windows, so doing this will install it for your operating system.
+6. Open your favorite browser, and type in "http://localhost:3000/"
