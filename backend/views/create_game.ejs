@@ -1,0 +1,10 @@
+<%- include ('template', { pageTitle: 'Lobby', pageContent:''}) %>
+<h1>Create a Game Here!</h1>
+
+<form action="/creategame" method="post">
+    <label for="gamename">Game Name:</label>
+    <input class="message-input" type="text" id="gamename" name="gamename" required>
+    <br><br>
+
+    <input class="game-button" type="submit" value="Create">
+</form>

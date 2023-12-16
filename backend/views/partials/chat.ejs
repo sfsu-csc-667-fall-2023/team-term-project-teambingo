@@ -1,0 +1,62 @@
+
+<form>
+    <input class="message-input" type="text" placeholder="Your Message">
+    <button class="header-button" id="sendMessage">Send</button>
+</form>
+
+<ul></ul>
+
+<script src="https://cdn.socket.io/4.1.2/socket.io.min.js"></script>
+
+<script> // we should probably move this to front end global_lobby.js and then include the script fk it
+    const socket = io.connect("http://localhost:3000");
+
+    socket.emit("joinGame", '<%=gamecode%>');
+    function sendMessage(e) {
+        e.preventDefault();
+        const input = document.querySelector('input');
+        if (input.value) {
+            const messageData = {
+                content: input.value,
+                sender: '<%= user.username.username %>', 
+                timestamp: new Date().toISOString().slice(0, 19).replace("T", " "), // Format as 'YYYY-MM-DD HH:MI:SS'
+                gamecode: '<%=gamecode%>'
+            };
+        socket.emit("messageToDB", messageData);
+        input.value = "";
+    }
+    input.focus();
+    }
+
+    
+    document.getElementById('sendMessage').addEventListener('click', sendMessage);
+    // listening for mesages from the serverrrr
+    socket.on("message", (messageData) => {
+        const content = messageData.content;
+        const sender = messageData.sender;
+        const timestamp = messageData.timestamp;
+        const gamecode = messageData.gamecode;
+
+        const li = document.createElement('li');
+            //if('<%= user.username.username%>' == _request.session.user){
+         //   li.classList.add('')
+        //}
+        li.classList.add('chat-msg');
+        li.textContent = timestamp + ' ' + sender + ' ' + content ;
+        console.log(messageData);
+        document.querySelector('ul').prepend(li);
+    });
+
+    socket.on("previousMessages", (previousMessages) => {
+        previousMessages.forEach((messageData) =>{
+            appendMessageToUI(messageData);
+        })
+    })
+
+    function appendMessageToUI(messageData){
+        const li = document.createElement('li');
+        li.classList.add('chat-msg');
+        li.textContent = messageData.timestamp + ' ' + messageData.sender + ' ' + messageData.content;
+        document.querySelector('ul').prepend(li);
+    }
+</script>

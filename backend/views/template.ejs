@@ -1,0 +1,18 @@
+<!-- Template that is used for all pages in views -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="/static/templatestyle.css">
+        <link href='https://fonts.googleapis.com/css?family=ADLaM Display' rel='stylesheet'>
+        <link rel="shortcut icon" href="/images/favicon 2.ico"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> <%= pageTitle %> </title>
+    </head>
+
+
+    <body>
+        <%- include ('./partials/navbar.ejs', { pageTitle: 'In Game', pageContent:'GAME TIME'})%>
+        <%= pageContent %>
+    </body>
+</html>

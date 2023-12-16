@@ -1,0 +1,53 @@
+<%- include('template', { pageTitle: 'Global Lobby', pageContent:'' }) %>
+
+<div id="gamesContainer">
+    <h1> Current Games </h1>
+    <ul class="gamesList"></ul>
+</div>
+      
+<div id="chatContainer">
+    <%- include('./partials/lobby_chat.ejs') %>
+</div>
+
+<script src="https://cdn.socket.io/4.1.2/socket.io.min.js"></script>
+
+<script> 
+    // global_games_call comes from server.js
+    socket.emit("global_games_call", );
+    let gamesListul = document.querySelector("ul.gamesList");
+    socket.on("global_games_return", (data) => {
+        gamesListul.innerHTML = "";
+        if (data === undefined) {
+            console.error("Error: Data is undefined.");
+        } else if (data.length === 0) {
+            let li = document.createElement("li");
+            li.textContent = "There are no games!";
+            gamesListul.appendChild(li);
+        } else {
+            data.forEach(game => {
+                let li = document.createElement("li");
+                    li.classList.add('active-games-button');
+                let a = document.createElement("a");
+                a.href = "/game/" + game.game_code; 
+                a.textContent = game.game_name; 
+                li.appendChild(a);
+                gamesListul.appendChild(li);
+            });
+        }
+    });
+
+    // listening for mesages from the server
+    socket.on("message", (messageData) => {
+        const content = messageData.content;
+        const sender = messageData.sender;
+        const timestamp = messageData.timestamp;
+
+        const li = document.createElement('li');
+        li.textContent = timestamp + ' ' + sender + ' ' + content ;
+        console.log(messageData);
+        document.querySelector('ul').prepend(li);
+    });
+</script>
+
+
+    

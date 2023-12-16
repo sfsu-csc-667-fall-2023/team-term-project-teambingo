@@ -1,0 +1,46 @@
+<%- include ('template', { pageTitle: 'Active Games', pageContent:''}) %>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="../../frontend/static/templatestyle.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> <%= pageTitle %> </title>
+    </head>
+    <body>
+        <h1>Here are your active games</h1>
+        <ul></ul>
+        
+        <script src="https://cdn.socket.io/4.1.2/socket.io.min.js"></script>
+
+        <script>
+            const socket = io.connect("http://localhost:3000");
+
+            // active_games comes from server.js
+            socket.emit("active_games",'<%= user.username.username %>');
+            
+            let ul = document.querySelector("ul");
+
+        socket.on("active_games_return", (data) => {
+            ul.innerHTML = "";
+            if (data === undefined) {
+                console.error("Error: Data is undefined.");
+            } else if (data.length === 0) {
+                let li = document.createElement("li");
+                li.textContent = "You have no games!";
+                ul.appendChild(li);
+            } else {
+                data.forEach(game => {
+                    let li = document.createElement("li");
+                    li.classList.add('active-games-button');
+                    let a = document.createElement("a");
+                    a.href = "/game/" + game.game_code; 
+                    a.textContent = game.game_name; 
+                    li.appendChild(a);
+                    ul.appendChild(li);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

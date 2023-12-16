@@ -1,0 +1,15 @@
+<%- include('template', { pageTitle: 'In Game', pageContent:'' }) %>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="../../frontend/static/templatestyle.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> <%= pageTitle %> </title>
+    </head>
+    <body>
+        <h1>Welcome to the Game!</h1>
+        <%- include ('./partials/chat.ejs', {gamecode}) %>
+        <%- include ('./partials/currGame.ejs', {gamecode})%>
+    </body>
+</html>

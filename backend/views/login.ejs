@@ -1,0 +1,19 @@
+<%- include('template', { pageTitle: 'Login', pageContent: '' }) %>
+<main>
+    <h1>Please login!</h1>
+    <form class="user-forms" action="/login" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br><br>
+    
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br><br>
+    
+        <input class="form-button" type="submit" value="Login">
+    </form>
+</main>
+
+<% if (loginFailed) { %>
+    <p style="color: red;">Login failed! Please check your credentials.</p>
+<% } %>
